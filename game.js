@@ -14,12 +14,12 @@ playerImg.src = "assets/player.png";
 
 let player = {
     x: 80,
-    y: canvas.height / 2,
+    y: canvas.height * 0.45,
     width: 60,
     height: 60,
     velocity: 0,
-    gravity: 0.35,
-    lift: -8
+   gravity: 0.28,   // slower falling
+lift: -6         // softer jump (less height) 
 };
 
 let pipes = [];
@@ -32,7 +32,7 @@ function startGame() {
     document.getElementById("startScreen").style.display = "none";
     document.getElementById("scoreBox").style.display = "block";
 
-    player.y = canvas.height / 2;
+    player.y = canvas.height * 0.45;
     player.velocity = 0;
     pipes = [];
     score = 0;
@@ -65,7 +65,7 @@ document.addEventListener("touchstart", function () {
 });
 
 function createPipe() {
-    let gap = canvas.height * 0.28; // responsive gap
+    let gap = canvas.height * 0.35;   // bigger gap // responsive gap
     let topHeight = Math.random() * (canvas.height * 0.5);
 
     pipes.push({
@@ -91,7 +91,7 @@ function update() {
     }
 
     pipes.forEach(pipe => {
-        pipe.x -= 1.8;
+        pipe.x -= 1.4;   // slower movement
 
         if (!pipe.passed && pipe.x + pipe.width < player.x) {
             pipe.passed = true;
