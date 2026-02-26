@@ -1,0 +1,78 @@
+body {
+    margin: 0;
+    background: #0a0f2c;
+    overflow: hidden;
+    font-family: Arial;
+}
+
+/* Center everything perfectly */
+#startScreen {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: yellow;
+}
+
+/* Title */
+#startScreen h2 {
+    margin-bottom: 30px;
+}
+
+/* Player Image */
+.preview {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto 30px auto;
+}
+
+/* Button */
+button {
+    padding: 15px 50px;
+    border-radius: 30px;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    background: white;
+}
+
+/* Score Box */
+#scoreBox {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+    background: rgba(255,255,255,0.2);
+    padding: 10px 20px;
+    border-radius: 15px;
+    color: white;
+}
+
+canvas {
+    display: block;
+}
+#gameOverScreen {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+    text-align: center;
+    color: white;
+}
+
+.overPhoto {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin-bottom: 20px;
+}
+
+#gameOverScreen button {
+    margin-top: 20px;
+}
