@@ -1,20 +1,25 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
-canvas.width = 400;
-canvas.height = 600;
+/* ✅ Responsive Canvas */
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
 
 let playerImg = new Image();
 playerImg.src = "assets/player.png";
 
 let player = {
     x: 80,
-    y: 250,
+    y: canvas.height / 2,
     width: 60,
     height: 60,
     velocity: 0,
-    gravity: 0.35,   // slower fall
-    lift: -8         // softer jump
+    gravity: 0.35,
+    lift: -8
 };
 
 let pipes = [];
@@ -27,7 +32,7 @@ function startGame() {
     document.getElementById("startScreen").style.display = "none";
     document.getElementById("scoreBox").style.display = "block";
 
-    player.y = 250;
+    player.y = canvas.height / 2;
     player.velocity = 0;
     pipes = [];
     score = 0;
@@ -60,8 +65,8 @@ document.addEventListener("touchstart", function () {
 });
 
 function createPipe() {
-    let gap = 180; // bigger gap = easier game
-    let topHeight = Math.random() * 250 + 50;
+    let gap = canvas.height * 0.28; // responsive gap
+    let topHeight = Math.random() * (canvas.height * 0.5);
 
     pipes.push({
         x: canvas.width,
@@ -86,7 +91,7 @@ function update() {
     }
 
     pipes.forEach(pipe => {
-        pipe.x -= 1.8; // slower pipe speed
+        pipe.x -= 1.8;
 
         if (!pipe.passed && pipe.x + pipe.width < player.x) {
             pipe.passed = true;
@@ -94,7 +99,6 @@ function update() {
             document.getElementById("score").innerText = score;
         }
 
-        // collision
         if (
             player.x < pipe.x + pipe.width &&
             player.x + player.width > pipe.x &&
@@ -110,17 +114,13 @@ function update() {
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Draw Player
     ctx.drawImage(playerImg, player.x, player.y, player.width, player.height);
 
     pipes.forEach(pipe => {
-
-        // Draw Yellow Walls
         ctx.fillStyle = "yellow";
         ctx.fillRect(pipe.x, 0, pipe.width, pipe.top);
         ctx.fillRect(pipe.x, pipe.bottom, pipe.width, canvas.height);
 
-        // Draw Photo inside top wall
         ctx.drawImage(
             playerImg,
             pipe.x + 10,
@@ -129,7 +129,6 @@ function draw() {
             60
         );
 
-        // Draw Photo inside bottom wall
         ctx.drawImage(
             playerImg,
             pipe.x + 10,
@@ -145,13 +144,12 @@ function gameLoop() {
 
     update();
     draw();
-
     requestAnimationFrame(gameLoop);
 }
 
 setInterval(() => {
     if (gameRunning) createPipe();
-}, 2500); // slower pipe creation
+}, 2500);
 
 function endGame() {
     gameRunning = false;
@@ -160,10 +158,11 @@ function endGame() {
     document.getElementById("finalScore").innerText = score;
     document.getElementById("gameOverScreen").style.display = "block";
 }
+
 function restartGame() {
     document.getElementById("gameOverScreen").style.display = "none";
 
-    player.y = 250;
+    player.y = canvas.height / 2;
     player.velocity = 0;
     pipes = [];
     score = 0;
